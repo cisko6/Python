@@ -31,12 +31,8 @@ login local
 transport input ssh
 exit
 interface vlan 1
-ip add 192.168.122.52 255.255.255.0
+ip add 192.168.122.5# 255.255.255.0
 no shut
 exit
 no ip domain lookup
-
-interface vlan 1
-ip add 192.168.122.5# 255.255.255.0
-no shut
 --------------------------------------
