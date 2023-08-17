@@ -1,0 +1,42 @@
+--------------------------------------
+TELNET
+
+en
+conf t
+username ciso password cisco
+username ciso privilege 15
+enable password cisco
+line vty 0 4
+login local
+transport input all
+exit
+interface vlan 1
+ip add 192.168.122.5# 255.255.255.0
+no shut
+exit
+no ip domain lookup
+--------------------------------------
+SSH
+
+en
+conf t
+username ciso password cisco
+username ciso privilege 15
+enable password cisco
+ip domain-name ciso.com
+crypto key generate rsa
+
+line vty 0 4
+login local
+transport input ssh
+exit
+interface vlan 1
+ip add 192.168.122.52 255.255.255.0
+no shut
+exit
+no ip domain lookup
+
+interface vlan 1
+ip add 192.168.122.5# 255.255.255.0
+no shut
+
