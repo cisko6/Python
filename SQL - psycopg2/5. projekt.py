@@ -4,14 +4,48 @@ import sys
 
 
 def vypis_menu():
-    print("[0] to insert a teacher")
-    print("[1] to insert a course")
-    print("[2] to insert a student")
-    print("[3] to list teachers")
-    print("[4] to list courses")
-    print("[5] to list students")
-    print("[8] to drop tables")
+    print("[1] Insert menu")
+    print("[2] Update menu")
+    print("[3] Remove menu")
+    print("[4] List menu")
     print("[9] to terminate")
+
+
+def vypis_insert_menu():
+    print("[1] to insert a teacher")
+    print("[2] to insert a course")
+    print("[3] to insert a student")
+    print("[9] to go back")
+
+
+def vypis_update_menu():
+    print("[1] to add a course to the teacher")
+    print("[2] to update student's courses")
+    print("[3] to update student's grade")
+    print("[9] to go back")
+
+
+def vypis_remove_menu():
+    print("[8] to drop tables")
+    print("[9] to go back")
+
+
+def vypis_list_menu():
+    print("[1] to list teachers")
+    print("[2] to list courses")
+    print("[3] to list students")
+    print("[9] to go back")
+
+def add_course_to_teacher():
+    print("add_course_to_teacher")
+
+
+def update_students_courses():
+    print("update_students_courses")
+
+def update_students_grade():
+    print("update_students_grade")
+
 
 def list_table(conn, cur, table):
     print(f"List of {table}: ")
@@ -270,7 +304,7 @@ def vytvor_spojovaciu_tabulku(conn, cur):
         print(f"Nastala chyba pri vytvárani spojovacej tabulky: {e}")
         conn.rollback()
 
-def list_courses(conn, cur, table, table_join):
+def list_courses(conn, cur, table):
     print(f"List of {table}: ")
     try:
         joined_tables = join_tables_curses_teachers()
@@ -377,6 +411,7 @@ def insert_student():
 
     all_courses = []
     all_courses_id = []
+    count_added_courses = 0
     while True:
         mena_kurzov = []
         print(f"Aktuálne kurzy: {all_courses}")
@@ -396,7 +431,7 @@ def insert_student():
                     continue
             except Exception as e:
                 print(f"Issue with int input: {e}")
-
+                conn.rollback()
         if number == -1:
             break
 
@@ -407,7 +442,9 @@ def insert_student():
             if kurz['name'] == mena_kurzov[number]:
                 all_courses_id.append(kurz['course_id'])
 
-
+        count_added_courses += 1
+        if count_added_courses == count:
+            break
 
     # zistenie ID studenta
     try:
@@ -424,9 +461,7 @@ def insert_student():
 
     for student in output_students:
         if student['name'] == input_student[0] and student['surname'] == input_student[1]:
-            #print(f"ID studenta: {student['student_id']}")
             actual_student_id = student['student_id']
-    #print(f"ID kurzov: {all_courses_id}")
 
     # pridat do spojovacej tabulky
     for kurz_id in all_courses_id:
@@ -479,28 +514,76 @@ if __name__ == "__main__":
                 vypis_menu()
                 try:
                     menu_choice = int(input("Menu choice: "))
-                    if 0 <= menu_choice <= 5 or 8 <= menu_choice <= 9:
+                    if 0 <= menu_choice <= 6 or 8 <= menu_choice <= 9:
                         break
                 except ValueError as e:
                     print(f"Zadaj cislo! Chyba: {e}")
 
-            if menu_choice == 0:
-                insert_teacher()  # INSERT A TEACHER
-            if menu_choice == 1:
-                insert_course()  # INSERT A COURSE
+                # odober studentovi kurz
+                # odober ucitelovi kurz
+
+                # osetrit vstupy pre menu2
+
+            if menu_choice == 1:  # DONE
+                # INSERT
+                while True:
+                    print("INSERT MENU!")
+                    vypis_insert_menu()
+                    menu_choice2 = int(input("Menu choice: "))
+                    if menu_choice2 == 1:
+                        insert_teacher()  # INSERT A TEACHER
+                    if menu_choice2 == 2:
+                        insert_course()  # INSERT A COURSE
+                    if menu_choice2 == 3:
+                        insert_student()  # INSERT A STUDENT
+                    if menu_choice2 == 9:
+                        break
+
             if menu_choice == 2:
-                insert_student()  # INSERT A STUDENT
+                # UPDATE
+                while True:
+                    print("UPDATE MENU!")
+                    vypis_update_menu()
+                    menu_choice2 = int(input("Menu choice: "))
+                    if menu_choice2 == 1:
+                        add_course_to_teacher()  # COURSE TO TEACHER
+                    if menu_choice2 == 2:
+                        update_students_courses()  # STUDENTS COURSES
+                    if menu_choice2 == 3:
+                        update_students_grade()  # STUDENTS GRADE
+                    if menu_choice2 == 9:
+                        break
+
             if menu_choice == 3:
-                list_teachers(conn, cur, tables[1])  # LIST TEACHERS
-            if menu_choice == 4:
-                list_courses(conn, cur, tables[2], tables[1])  # LIST COURSES
-            if menu_choice == 5:
-                list_students(conn, cur, tables[0])  # LIST STUDENTS
-            if menu_choice == 8:
-                drop_tables(tables)
+                # REMOVE
+                while True:
+                    print("REMOVE MENU!")
+                    vypis_remove_menu()
+                    menu_choice2 = int(input("Menu choice: "))
+                    if menu_choice2 == 8:
+                        drop_tables(tables)  # DROP TABLES
+                    if menu_choice2 == 9:
+                        break
+
+            if menu_choice == 4: # DONE
+                # LIST
+                while True:
+                    print("LIST MENU!")
+                    vypis_list_menu()
+                    menu_choice2 = int(input("Menu choice: "))
+                    if menu_choice2 == 1:
+                        list_teachers(conn, cur, tables[1])  # LIST TEACHERS
+                    if menu_choice2 == 2:
+                        list_courses(conn, cur, tables[2])  # LIST COURSES
+                    if menu_choice2 == 3:
+                        list_students(conn, cur, tables[0])  # LIST STUDENTS
+                    if menu_choice2 == 9:
+                        break
+
             if menu_choice == 9:
                 print("BYE!")
                 break
+
     cur.close()
     conn.close()
     print(conn.closed)
