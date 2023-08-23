@@ -16,7 +16,6 @@ def list_table(conn, cur, table):
         output = cur.fetchall()
         for nieco in output:
             print(nieco[1])
-        #print(output)
     except Exception as e:
         print(f"Chyba pri listovaní tabuľky: {e}")
         conn.rollback()
@@ -67,6 +66,27 @@ def vytvor_tabulky(conn, cur, tables, ids):
         conn.rollback()
         cur.close()
         sys.exit(1)
+
+
+def input_any_number():
+    while True:
+        try:
+            cislo = int(input())
+            return cislo
+        except Exception as e:
+            print(f"Issue with int input: {e}")
+
+def input_number_from_to(number_from, number_to):
+    while True:
+        try:
+            pom = int(input())
+            if number_from <= pom <= number_to:
+                return pom
+            else:
+                print("Musíš zadať správne číslo!")
+                continue
+        except Exception as e:
+            print(f"Issue with int input: {e}")
 
 def input_only_letters():
     while True:

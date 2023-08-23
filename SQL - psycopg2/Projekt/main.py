@@ -1,8 +1,6 @@
 import psycopg2.extras
 
-from vypisy import *
 from insert_update import *
-from funkcie import *
 from remove_list import *
 
 if __name__ == "__main__":
@@ -87,7 +85,7 @@ if __name__ == "__main__":
                     if menu_choice2 == 9:
                         break
 
-            if menu_choice == 4: # DONE
+            if menu_choice == 4:  # DONE
                 # LIST
                 while True:
                     print("LIST MENU!")

@@ -201,21 +201,91 @@ def insert_teacher(conn, cur):
         conn.rollback()
 
 
-
-
-
-
-
-
-
+########################################################################################################################
 
 
 def add_course_to_teacher(conn, cur):
-    print("add_course_to_teacher")
+    # ZISTIT CI NEJAKY COURSE JE BEZ UCITELA
+    try:
+        sql_command = sql.SQL(
+            """
+            SELECT *
+            FROM courses
+            WHERE teacher_id IS null
+            """
+        )
+        cur.execute(sql_command)
+        output_kurzy = cur.fetchall()
+    except Exception as e:
+        print(f"ERROR add_course_to_teacher(): {e}")
+        conn.rollback()
+    if len(output_kurzy) == 0:
+        print("There is no course that have no teacher..")
+        return
+    print("Enter name of a teacher: ")
+    name = input_only_letters()
+    print("Enter surname of a teacher: ")
+    surname = input_only_letters()
 
+    # CHECK IF TEACHER EXISTS
+    try:
+        sql_command = sql.SQL(
+            """
+            SELECT *
+            FROM teachers
+            WHERE name = {} AND surname = {}
+            """
+        ).format(
+            sql.Literal(name),
+            sql.Literal(surname)
+        )
+        cur.execute(sql_command)
+        output_teacher = cur.fetchall()
+    except Exception as e:
+        print(f"ERROR add_course_to_teacher(): {e}")
+        conn.rollback()
+
+    if len(output_teacher) == 0:
+        print("There is no teacher with this name..")
+        return
+
+    # VYPIS KURZOV BEZ UCITELA
+    print("Vyber si z nasledujúcich kurzov:")
+    count = 1
+    all_courses_id = []
+    for kurz in output_kurzy:
+        print(f"[{count}] {kurz['name']}")
+        all_courses_id.append(kurz['course_id'])
+        count += 1
+    print("Vyber číslo kurzu: ", end='')
+    cislo_kurzu = input_number_from_to(0, count)
+
+    # ZISTIT AKE ID JE VYBRANE CISLO
+    id_kurzu = all_courses_id[cislo_kurzu-1]
+    for ucitel in output_teacher:
+        id_ucitela = ucitel['teacher_id']
+
+    # PRIRADIT KURZ UCITELOVI
+    try:
+        sql_command = sql.SQL(
+            """
+            UPDATE courses
+            SET teacher_id = {}
+            WHERE course_id = {}
+            """
+        ).format(
+            sql.Literal(id_ucitela),
+            sql.Literal(id_kurzu)
+        )
+        cur.execute(sql_command)
+        conn.commit()
+    except Exception as e:
+        print(f"ERROR assigning course to teacher: {e}")
+        conn.rollback()
 
 def update_students_courses(conn, cur):
     print("update_students_courses")
+
 
 def update_students_grade(conn, cur):
     print("update_students_grade")
