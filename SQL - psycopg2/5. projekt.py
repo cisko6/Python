@@ -2,6 +2,16 @@ import psycopg2.extras
 from psycopg2 import sql
 import sys
 
+# colours
+RESET = "\033[0m"
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
 
 def vypis_menu():
     print("[1] Insert menu")
@@ -155,7 +165,7 @@ def insert_teacher():
         )
         cur.execute(sql_command)
         conn.commit()
-        print("Successfully inserted a teacher!")
+        print(GREEN + "Successfully inserted a teacher!" + RESET)
         print("*****************************")
 
     except Exception as e:
@@ -223,7 +233,7 @@ def insert_course():
     except Exception as e:
         print(f"Error adding a course to the table courses: {e}")
         conn.rollback()
-    print("Successfully inserted a course!")
+    print(GREEN + "Successfully inserted a course!" + RESET)
     print("*****************************")
 
 
@@ -350,7 +360,7 @@ def drop_tables(tables):
         cur.close()
         sys.exit(1)
 
-    print("Successfully dropped all tables!")
+    print(GREEN + "Successfully dropped all tables!" + RESET)
     print("*****************************")
 
 def vstupy_ziaka():
@@ -481,7 +491,7 @@ def insert_student():
             print(f"Issue while inserting a student..: {e}")
             conn.rollback()
 
-    print("Successfully inserted a student!")
+    print(GREEN + "Successfully inserted a student!" + RESET)
     print("*****************************")
 
 if __name__ == "__main__":
@@ -499,7 +509,7 @@ if __name__ == "__main__":
             )
             break
         except Exception as e:
-            print("Chyba pri konektovaní na databázu: ")
+            print(f"Chyba pri konektovaní na databázu: {e}")
 
 
     # Identifikátory
