@@ -68,7 +68,7 @@ if __name__ == "__main__":
                     if menu_choice2 == 1:
                         add_course_to_teacher(conn, cur)  # COURSE TO TEACHER
                     if menu_choice2 == 2:
-                        update_students_courses(conn, cur)  # STUDENTS COURSES
+                        add_course_to_student(conn, cur)  # COURSE TO STUDENT
                     if menu_choice2 == 3:
                         update_students_grade(conn, cur)  # STUDENTS GRADE
                     if menu_choice2 == 9:

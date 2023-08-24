@@ -282,11 +282,114 @@ def add_course_to_teacher(conn, cur):
     except Exception as e:
         print(f"ERROR assigning course to teacher: {e}")
         conn.rollback()
+    print(GREEN + "Successfully added course to the teacher!" + RESET)
+    print("*****************************")
 
-def update_students_courses(conn, cur):
-    print("update_students_courses")
+def add_course_to_student(conn, cur):
+    # vyber ktoremu studentovi sa bude pridavat kurz
+    try:
+        sql_command = sql.SQL(
+            """
+            SELECT * FROM students
+            """
+        )
+        cur.execute(sql_command)
+        output_studenti = cur.fetchall()
+    except Exception as e:
+        print(f"ERROR assigning course to student: {e}")
+        conn.rollback()
+
+    count_st = 0
+    all_students_id = []
+    for student in output_studenti:
+        print(f"[{count_st}] {student['name']} {student['surname']} ({student['grade']})")
+        all_students_id.append(student['student_id'])
+        count_st += 1
+    print("Vyber studenta: ")
+    cislo_studenta = input_number_from_to(0, count_st-1)
+
+    # ziskanie ID studenta
+    id_studenta = all_students_id[cislo_studenta]
+
+    # vyber z dostupnych kurzov
+    try:
+        sql_command = sql.SQL(
+            """
+            SELECT * FROM courses
+            """
+        )
+        cur.execute(sql_command)
+        output_courses = cur.fetchall()
+    except Exception as e:
+        print(f"ERROR SELECT * FROM courses: {e}")
+        conn.rollback()
+
+    #ziskanie ID dostupnych kurzov
+    all_courses_id = []
+    for course in output_courses:
+        all_courses_id.append(course['course_id'])
+
+    # ziskanie vybranych kurzov
+    all_chosed_numbers_co = []
+    while True:
+        count_co = 0
+        print(f"Actual courses: {all_chosed_numbers_co}")
+        for course in output_courses:
+            print(f"[{count_co}] {course['name']}")
+            count_co += 1
+        while True:
+            print("Vyber kurzu: ")
+            cislo_kurzu = input_number_from_to(-1, count_co - 1)
+            if cislo_kurzu not in all_chosed_numbers_co:
+                break
+            else:
+                print("This course have already been chosen!")
+        if cislo_kurzu == -1:
+            break
+        all_chosed_numbers_co.append(cislo_kurzu)
+
+    # ziskanie ID vsetkych vybranych kurzov
+    final_courses_id = []
+    for course_number in all_chosed_numbers_co:
+        final_courses_id.append(all_courses_id[course_number])
+
+    # pridanie do spojovacej tabulky
+    for kurz in final_courses_id:
+        try:
+            sql_command = sql.SQL(
+                """
+                INSERT INTO courses_students ("Course_Id","Student_Id") VALUES({},{})
+                """
+            ).format(
+                sql.Literal(kurz),
+                sql.Literal(id_studenta)
+            )
+            cur.execute(sql_command)
+            conn.commit()
+        except Exception as e:
+            print(f"ERROR SELECT * FROM courses: {e}")
+            conn.rollback()
+    print(GREEN + "Successfully added course to the student!" + RESET)
+    print("*****************************")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def update_students_grade(conn, cur):
     print("update_students_grade")
+
 

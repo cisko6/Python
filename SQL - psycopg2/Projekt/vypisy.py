@@ -27,7 +27,7 @@ def vypis_insert_menu():
 
 def vypis_update_menu():
     print("[1] to add a course to the teacher")
-    print("[2] to update student's courses")
+    print("[2] to add a course to the student")
     print("[3] to update student's grade")
     print("[9] to go back")
 
