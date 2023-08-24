@@ -263,8 +263,6 @@ def add_course_to_teacher(conn, cur):
 
     # ZISTIT AKE ID JE VYBRANE CISLO
     id_kurzu = all_courses_id[cislo_kurzu-1]
-    #for ucitel in output_teacher:
-    #    id_ucitela = ucitel['teacher_id']
 
     # PRIRADIT KURZ UCITELOVI
     try:
