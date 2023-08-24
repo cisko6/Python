@@ -38,13 +38,10 @@ if __name__ == "__main__":
                 except ValueError as e:
                     print(f"Zadaj cislo! Chyba: {e}")
 
-                # odober studentovi kurz
-                # odober ucitelovi kurz
-
                 # osetrit vstupy pre menu2
                 # pri listovani studentov uviest kolko ich je
 
-            if menu_choice == 1:  # DONE
+            if menu_choice == 1:
                 # INSERT
                 while True:
                     print("INSERT MENU!")
@@ -80,12 +77,16 @@ if __name__ == "__main__":
                     print("REMOVE MENU!")
                     vypis_remove_menu()
                     menu_choice2 = int(input("Menu choice: "))
+                    if menu_choice2 == 1:
+                        remove_teachers_course(conn, cur)  # remove teacher's course
+                    if menu_choice2 == 2:
+                        remove_students_course(conn, cur)  # remove student's course
                     if menu_choice2 == 8:
                         drop_tables(conn, cur, tables)  # DROP TABLES
                     if menu_choice2 == 9:
                         break
 
-            if menu_choice == 4:  # DONE
+            if menu_choice == 4:
                 # LIST
                 while True:
                     print("LIST MENU!")

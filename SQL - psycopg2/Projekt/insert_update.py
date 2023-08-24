@@ -285,6 +285,8 @@ def add_course_to_teacher(conn, cur):
     print(GREEN + "Successfully added course to the teacher!" + RESET)
     print("*****************************")
 
+ ######################################################################################################################
+
 def add_course_to_student(conn, cur):
     # vyber ktoremu studentovi sa bude pridavat kurz
     try:
@@ -372,24 +374,54 @@ def add_course_to_student(conn, cur):
     print(GREEN + "Successfully added course to the student!" + RESET)
     print("*****************************")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+########################################################################################################################
 
 def update_students_grade(conn, cur):
-    print("update_students_grade")
+    try:
+        sql_command = sql.SQL(
+            """
+            SELECT * FROM students
+            """
+        )
+        cur.execute(sql_command)
+        output_studenti = cur.fetchall()
+    except Exception as e:
+        print(f"ERROR changing students grade: {e}")
+        conn.rollback()
 
+    count_st = 0
+    all_students_id = []
+    for student in output_studenti:
+        print(f"[{count_st}] {student['name']} {student['surname']} ({student['grade']})")
+        all_students_id.append(student['student_id'])
+        count_st += 1
+    print("Vyber studenta: ")
+    cislo_studenta = input_number_from_to(0, count_st-1)
 
+    # ziskanie ID studenta
+    id_studenta = all_students_id[cislo_studenta]
+
+    # zadanie ročníka
+    print("Zadaj grade: ")
+    grade = input_any_number()
+
+    # zmenit grade studentovi
+    try:
+        sql_command = sql.SQL(
+            """
+            UPDATE students
+            SET grade = {}
+            WHERE student_id = {}
+            """
+        ).format(
+            sql.Literal(grade),
+            sql.Literal(id_studenta)
+        )
+        cur.execute(sql_command)
+        conn.commit()
+    except Exception as e:
+        print(f"ERROR changing students grade: {e}")
+        conn.rollback()
+
+    print(GREEN + "Successfully changed a student's grade!" + RESET)
+    print("*****************************")

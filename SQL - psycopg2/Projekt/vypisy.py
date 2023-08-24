@@ -32,8 +32,12 @@ def vypis_update_menu():
     print("[9] to go back")
 
 
+# odober studentovi kurz
+# odober ucitelovi kurz
 def vypis_remove_menu():
-    print("[8] to drop tables")
+    print("[1] to remove teacher's course")
+    print("[2] to remove student's course")
+    print("[8] to remove tables")
     print("[9] to go back")
 
 
