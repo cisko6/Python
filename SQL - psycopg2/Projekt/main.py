@@ -33,20 +33,24 @@ if __name__ == "__main__":
                 vypis_menu()
                 try:
                     menu_choice = int(input("Menu choice: "))
-                    if 0 <= menu_choice <= 6 or 8 <= menu_choice <= 9:
+                    if 1 <= menu_choice <= 4 or menu_choice == 9:
                         break
                 except ValueError as e:
                     print(f"Zadaj cislo! Chyba: {e}")
 
-                # osetrit vstupy pre menu2
-                # pri listovani studentov uviest kolko ich je
 
             if menu_choice == 1:
                 # INSERT
                 while True:
-                    print("INSERT MENU!")
-                    vypis_insert_menu()
-                    menu_choice2 = int(input("Menu choice: "))
+                    while True:
+                        print("INSERT MENU!")
+                        vypis_insert_menu()
+                        try:
+                            menu_choice2 = int(input("Menu choice: "))
+                            if 1 <= menu_choice2 <= 3 or menu_choice2 == 9:
+                                break
+                        except ValueError as e:
+                            print(f"Zadaj cislo! Chyba: {e}")
                     if menu_choice2 == 1:
                         insert_teacher(conn, cur)  # INSERT A TEACHER
                     if menu_choice2 == 2:
@@ -59,9 +63,15 @@ if __name__ == "__main__":
             if menu_choice == 2:
                 # UPDATE
                 while True:
-                    print("UPDATE MENU!")
-                    vypis_update_menu()
-                    menu_choice2 = int(input("Menu choice: "))
+                    while True:
+                        print("UPDATE MENU!")
+                        vypis_update_menu()
+                        try:
+                            menu_choice2 = int(input("Menu choice: "))
+                            if 1 <= menu_choice2 <= 3 or menu_choice2 == 9:
+                                break
+                        except ValueError as e:
+                            print(f"Zadaj cislo! Chyba: {e}")
                     if menu_choice2 == 1:
                         add_course_to_teacher(conn, cur)  # COURSE TO TEACHER
                     if menu_choice2 == 2:
@@ -74,9 +84,15 @@ if __name__ == "__main__":
             if menu_choice == 3:
                 # REMOVE
                 while True:
-                    print("REMOVE MENU!")
-                    vypis_remove_menu()
-                    menu_choice2 = int(input("Menu choice: "))
+                    while True:
+                        print("REMOVE MENU!")
+                        vypis_remove_menu()
+                        try:
+                            menu_choice2 = int(input("Menu choice: "))
+                            if 1 <= menu_choice2 <= 2 or 8 <= menu_choice2 <= 9:
+                                break
+                        except ValueError as e:
+                            print(f"Zadaj cislo! Chyba: {e}")
                     if menu_choice2 == 1:
                         remove_teachers_course(conn, cur)  # remove teacher's course
                     if menu_choice2 == 2:
@@ -89,9 +105,15 @@ if __name__ == "__main__":
             if menu_choice == 4:
                 # LIST
                 while True:
-                    print("LIST MENU!")
-                    vypis_list_menu()
-                    menu_choice2 = int(input("Menu choice: "))
+                    while True:
+                        print("LIST MENU!")
+                        vypis_list_menu()
+                        try:
+                            menu_choice2 = int(input("Menu choice: "))
+                            if 1 <= menu_choice2 <= 3 or menu_choice2 == 9:
+                                break
+                        except ValueError as e:
+                            print(f"Zadaj cislo! Chyba: {e}")
                     if menu_choice2 == 1:
                         list_teachers(conn, cur, tables[1])  # LIST TEACHERS
                     if menu_choice2 == 2:
