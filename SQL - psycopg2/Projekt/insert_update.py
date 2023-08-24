@@ -222,22 +222,14 @@ def add_course_to_teacher(conn, cur):
     if len(output_kurzy) == 0:
         print("There is no course that have no teacher..")
         return
-    print("Enter name of a teacher: ")
-    name = input_only_letters()
-    print("Enter surname of a teacher: ")
-    surname = input_only_letters()
 
-    # CHECK IF TEACHER EXISTS
+    # VYPIS VSETKYCH UCITELOV
     try:
         sql_command = sql.SQL(
             """
             SELECT *
             FROM teachers
-            WHERE name = {} AND surname = {}
             """
-        ).format(
-            sql.Literal(name),
-            sql.Literal(surname)
         )
         cur.execute(sql_command)
         output_teacher = cur.fetchall()
@@ -245,9 +237,18 @@ def add_course_to_teacher(conn, cur):
         print(f"ERROR add_course_to_teacher(): {e}")
         conn.rollback()
 
-    if len(output_teacher) == 0:
-        print("There is no teacher with this name..")
-        return
+    # ZISKANIE UCITELA
+    count_te = 0
+    all_teachers_id = []
+    for teacher in output_teacher:
+        print(f"[{count_te}] {teacher['degree']} {teacher['name']} {teacher['surname']}")
+        all_teachers_id.append(teacher['teacher_id'])
+        count_te += 1
+
+    chosen_teacher_number = input_number_from_to(0, count_te-1)
+
+    # ZISKANIE ID UCITELA
+    id_ucitela = all_teachers_id[chosen_teacher_number]
 
     # VYPIS KURZOV BEZ UCITELA
     print("Vyber si z nasledujúcich kurzov:")
@@ -262,8 +263,8 @@ def add_course_to_teacher(conn, cur):
 
     # ZISTIT AKE ID JE VYBRANE CISLO
     id_kurzu = all_courses_id[cislo_kurzu-1]
-    for ucitel in output_teacher:
-        id_ucitela = ucitel['teacher_id']
+    #for ucitel in output_teacher:
+    #    id_ucitela = ucitel['teacher_id']
 
     # PRIRADIT KURZ UCITELOVI
     try:
