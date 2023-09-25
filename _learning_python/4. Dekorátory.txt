@@ -1,0 +1,97 @@
+------------------------------ BASIC DECORATOR ------------------------------------------------------
+import time
+import datetime
+
+def time_of_function(func):
+    def wrapper():
+        print(datetime.datetime.now())
+        func()
+        print(datetime.datetime.now())
+    return wrapper
+
+@time_of_function
+def funkcia():
+    time.sleep(1)
+
+funkcia()
+
+-------------------------------- KEBY FUNKCIA MA ARGUMENT - zadany manualne -> môžeme použiť *args ale zatiaľ to robíme manuálne ----------------------------------------------------
+import time
+import datetime
+
+def time_of_function(func):
+    def wrapper(seconds):			#
+        print(datetime.datetime.now())
+        func(seconds)				#
+        print(datetime.datetime.now())
+    return wrapper
+
+@time_of_function
+def funkcia(seconds):				#
+    time.sleep(seconds)				#
+
+funkcia(3)
+
+-------------------------------- KEBY FUNKCIA MA ĹUBOVOĽNÝ POČET ARGUMENTOV ----------------------------------------------------
+import time
+import datetime
+
+def time_of_function(func):
+    def wrapper(*args):				#
+        print(datetime.datetime.now())
+        func(*args)				#
+        print(datetime.datetime.now())
+    return wrapper
+
+@time_of_function
+def funkcia(seconds, name):			#
+    print(f"{name} čaká {seconds}s")
+    time.sleep(seconds)
+
+funkcia(3, "Jozko")
+
+-------------------------------- VRATENIE ARGUMENTU POUZITIM ARGS ----------------------------------------------------
+def time_of_function(func):
+    def wrapper(*args):
+        print(datetime.datetime.now())
+        func(*args)
+        print(datetime.datetime.now())
+        return args[1]				#
+    return wrapper
+-------------------------------- VRATENIE VRATENEHO ARGUMENTU Z FUNKCIE ----------------------------------------------------
+import time
+import datetime
+
+def time_of_function(func):
+    def wrapper(*args):
+        print(datetime.datetime.now())
+        vysl = func(*args)		#
+        print(datetime.datetime.now())
+        return vysl			#
+    return wrapper
+
+@time_of_function
+def funkcia(seconds, name):
+    print(f"{name} čaká {seconds}s")
+    time.sleep(seconds)
+    return name				#
+
+result = funkcia(3, "Jozko")
+print(result)
+-------------------------------- BONUSOVA TAZSIA ULOHA ----------------------------------------------------
+# dekorator, ktory bude fungovať pre akúkoľvek funkciu
+# ktorý vykoná danú funkciu n-krát
+# ktory bude mať n ako parameter
+
+def dekorator(pocet):
+    def wrapper(func):
+        def inner_wrapper():
+            for i in range(pocet):
+                func()
+        return inner_wrapper
+    return wrapper
+@dekorator(pocet=3)
+def hello_world():
+    print("hello world")
+
+hello_world()

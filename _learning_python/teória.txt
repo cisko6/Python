@@ -1,0 +1,114 @@
+matplotplib knižnica -> graf
+type()
+list()
+reversed(pole)
+
+split(string) -> rozdeli string na pole stringov (po slove)
+" ".join(pole) -> zoskupi pole do jedneho stringu
+
+- TRUE/FALSE - 0=true, 1=false
+- všetko čo vracia generátor, treba pretypovať na list 
+
+LIST COMPREHENSIONS
+	- pole = [navratova_cast FOR premenna IN zoskupenie IF podmienka]
+	- return [letter for letter in string ]
+	- return [ list(range(0, cislo+1)) for cislo in pole_cisel if cislo >= 0]
+
+LAMBDA FUNKCIA
+	- jednoriadkova funkcia
+	- implicitne vracia navratovu hodnotu tela
+	- lambda [parametre]: [telo]
+	- lambda x: print(x)
+
+MAP REDUCE FILTER
+	- 1) map
+		- map(funkcia, pole)
+		- zoberie kazdy prvok z pola a aplikuje nanho po jednom funkciu
+		- vrati pozmenene POLE
+	- 2) filter
+		- filter(funkcia, pole)
+		- na kazdy prvok z pola aplikuje funkciu, ktorá vracia iba TRUE alebo FALSE
+		- vrati POLE len s prvkami, pre ktoré funkcia bola TRUE
+	- 3) reduce
+		- reduce(funkcia, pole)
+		- from functools import reduce
+		- dobrý na kumulatívne zredukovanie poľa - napr mame pole [2,3,4,5] tak ked dame funkciu ktora scitava dva prvky tak vysledok bude -> 2+3 -> 5+4 -> 9+5 = 14
+
+FILES
+	- Pri zapisovaní do súboru sa zapisuju LEN STRINGY -> INTy treba str()
+	- pristupy files
+		1) file = open('file.txt')
+			- vzdy treba zatvorit file
+		2) with open('file.txt',"r") as file:
+			- zatvori sa file po odsadeni
+	- súbor
+		1) r - read
+		2) w - write -> prepisuje sa celý súbor keď zapisujeme
+		3) a - append -> pridávame do súboru - neprepisujeme celý súbor
+
+	- funkcie
+		1) f.readline() -> precita jeden riadok
+			- môže mať 1 parameter, ktorý hovorí koľko bajtov má prečítať zo SUBORU (nie riadku)
+		2) f.readlines() -> prečíta všetky riadky do POĽA ->to znamená že vieme iterovať pole cez FOR cyklus
+		3) f.write(slovo)
+
+POLIA
+	append - priradenie jedneho prvku
+	extend - priradenie viacerych prvkov na koniec pola
+	insert - vloženie prvku do pola na dany index
+	remove
+	pop - remove na indexe
+	reverse
+
+
+DICTIONARY
+	- sú kľúč : hodnota
+	- funkcie:
+		- GET (ziska hodnotu z kluca),
+		- ITEMS (vrati cely dictionary),
+		- POP (vymaze prvok na kluci a vypise ho)
+		- POPITEM (vymaze posledny prvok a vypise ho)
+
+		- KEYS (vrati iba kluce),
+		- VALUES (vrati iba values)
+
+	- "name" : "Ahoj"
+	- prístup k dict
+		1) person["name"] = "Miso"
+			- dictionary v dictionary -> person["address"]["city"]
+		2) person.get("name")
+			- person.get("nameee", "prvok neexistuje") -> vypíše prvok neexistuje ak prvok "nameee" nie je v dictionary
+
+	- využitie tuple v dict
+		- for kluc, hodnota in person.items():
+
+
+EXCEPTIONS
+	- Exception -> ak nastane hocijaka chyba v try sekcii
+	- ZeroDivisionError -> 2/0
+	- IndexError -> pristupenie na index ktory neexistuje
+	- TypeError -> očakávame int a dostaneme string
+
+
+HINTY
+	-Sú dobré pre čitateľnosť kódu
+	- vytvoriť hint pre vstup
+		- def fnc(element1: int, element2: int):
+		- je to len hint, nema to dopad na funkctionalitu
+	- vytvoriť hint pre výstup
+		- def fnc(element1: int, element2: int) -> int:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

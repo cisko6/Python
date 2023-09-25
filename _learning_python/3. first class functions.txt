@@ -1,0 +1,58 @@
+- first class funckie znamená že ich vieme poslať do inej funkcie
+
+def hello_world():
+    print("Hello World")
+
+x = helloworld keď máme funkciu hello_world() tak vieme jej telo uložiť do premennej
+x() -> vyvoláme funkciu ktora vypise hello world
+
+------------------------------------- TYPICKY PRIKLAD NA POSIELANIE FUNCKIE -----------------------------------------------------
+def hello_world():
+    print("Hello World")
+
+wrapper(func):
+    func()
+
+wrapper(hello_world)
+
+--------------------------------------------- PRISTUP K FUNKCII VYTVORENEJ VO FUNKCII ---------------------------------------------------------------------------------
+# Funkcia tiez vie vratit funkciu, ktora sa v nej vytvori
+def function_factory():
+    def hello_world():
+        print("Hello world but different")
+    return hello_world
+
+print(function_factory()())
+
+-------------------------------------------------- FUNKCIE V POLI ----------------------------------------------------------------------------
+# Funkcie vies ulozit do pola presne ako akekolvek ine hodnoty
+def adder(x, y):
+    return x + y
+
+def substractor(x, y):
+    return x - y
+
+def multiplier(x, y):
+    return x * y
+
+functions = [adder, substractor, multiplier]
+
+# 1) možnosť default for
+#for function in functions:
+#    print(function(1, 2))
+
+# 2) možosť LIST COMPREHENSION
+# print([function(1,2) for function in functions])
+
+# 3) možnosť MAP
+print(list(map( lambda x: x(1,2), functions))) # -> tento riadok nahradil predchadzajuce 2
+
+--------------------------------------------- Annonymous function ---------------------------------------------------------------------------------
+# Annonymous function -> použitie lambdy namiesto definovania funkcie ako parameter dalsej funkcie
+def function_wrapper2(func, x, y):
+    print("This is function wrapper")
+    return func(x, y)
+
+print(function_wrapper2(lambda x,y: x+y, 10, 20))
+
+

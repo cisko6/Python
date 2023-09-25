@@ -1,0 +1,34 @@
+
+PAIRS = {
+    '(': ')',
+    '{': '}',
+    '[': ']',
+    '<': '>'
+}
+
+def is_valid(str):
+    buff = []
+    for c in str:
+        if c in PAIRS.keys():
+            buff.append(PAIRS[c])
+            continue
+        elif c in PAIRS.values():
+            if len(buff) == 0:
+                return False
+
+            if c == buff[-1]:
+                buff.pop(-1)
+                continue
+            else:
+                return False
+        else:
+            return False
+    if len(buff):
+        return False
+    return True
+
+if __name__ == "__main__":
+    #zatvorky = "([][]{()})" # true
+    #zatvorky = "({([()()])})"  # true
+    zatvorky = "({([()()])}))"  # false
+    print(is_valid(zatvorky))

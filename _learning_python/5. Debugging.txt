@@ -1,0 +1,14 @@
+Pred pythonom 3.6
+	- import pdb; pdb.set_trace() -> na danom riadku ako debug
+	- p [nazov premennej]
+
+	- n (ako next) -> posunutie sa o jeden riadok
+	- s (ako step) -> step into
+
+	- q vypne debugger
+Po Pythone 3.6
+	- breakpoint()
+	- c (ako continue) -> posunutie na ďalší breakpoint
+
+	- ll -> vypise cely subor v ktorom sa momentalne nachadzame (niekedy odbočíme do iných súborov a chceme ich vidieť) 
+	- l -> vypise iba radius 11 riadkov
